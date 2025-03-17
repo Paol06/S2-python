@@ -65,18 +65,17 @@ def fleche(dir):
 fourmi = canva.create_polygon(fleche(direction2), width=0, fill="lightblue")
 
 
-def passage_mural():
+def passage_mural(x, y):
     """permet une meilleur lecture du programme
        pour faire passer la bordure à la fourmis"""
-    global u, k
-    if u > haut // taille_carre - 1:
-        u = 0
-    elif k > larg // taille_carre - 1:
-        k = 0
-    elif u < 0:
-        u = haut // taille_carre - 1
-    elif k < 0:
-        k = larg // taille_carre - 1
+    if y > haut // taille_carre - 1:
+        y = 0
+    elif x > larg // taille_carre - 1:
+        x = 0
+    elif y < 0:
+        y = haut // taille_carre - 1
+    elif x < 0:
+        x = larg // taille_carre - 1
 
 
 def pause():
@@ -142,7 +141,7 @@ def deplacement():
                 elif direction2 == "e":
                     direction[i] = "n"
                     w[i] -= 1
-            passage_mural()
+            passage_mural(v[i], w[i])
             fourmi = canva.create_polygon(fleche(direction2), width=0,
                                           fill="lightblue")
         canva.after(speed, deplacement)
@@ -161,11 +160,7 @@ def reversse():
             canva.delete(fourmi)
             if direction2 == "n":
                 w[i] += 1
-                u = w[i]
-                if u > haut // taille_carre - 1:
-                    w[i] = 0
-                elif u < 0:
-                    w[i] = haut // taille_carre - 1
+                passage_mural(v[i], w[i])
                 u = w[i]
                 if couleur[k][u] == 0:
                     canva.itemconfig(cases[k][u], fill=color2)
@@ -177,11 +172,7 @@ def reversse():
                     direction[i] = "w"
             elif direction2 == "w":
                 v[i] += 1
-                k = v[i]
-                if k > larg // taille_carre - 1:
-                    v[i] = 0
-                elif k < 0:
-                    v[i] = larg // taille_carre - 1
+                passage_mural(v[i], w[i])
                 k = v[i]
                 if couleur[k][u] == 0:
                     canva.itemconfig(cases[k][u], fill=color2)
@@ -193,11 +184,7 @@ def reversse():
                     direction[i] = "s"
             elif direction2 == "e":
                 v[i] -= 1
-                k = v[i]
-                if k > larg // taille_carre - 1:
-                    v[i] = 0
-                elif k < 0:
-                    v[i] = larg // taille_carre - 1
+                passage_mural(v[i], w[i])
                 k = v[i]
                 if couleur[k][u] == 0:
                     canva.itemconfig(cases[k][u], fill=color2)
@@ -209,11 +196,7 @@ def reversse():
                     direction[i] = "n"
             elif direction2 == "s":
                 w[i] -= 1
-                u = w[i]
-                if u > haut // taille_carre - 1:
-                    w[i] = 0
-                elif u < 0:
-                    w[i] = haut // taille_carre - 1
+                passage_mural(v[i], w[i])
                 u = w[i]
                 if couleur[k][u] == 0:
                     canva.itemconfig(cases[k][u], fill=color2)

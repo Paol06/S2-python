@@ -103,7 +103,6 @@ def pause_reverse():
     reversse()
 
 
-
 def deplacement():
     """Programme le mouvement de la fourmi"""
     global k, u, direction2, itération, fourmi
@@ -145,7 +144,7 @@ def deplacement():
                     w[i] -= 1
             passage_mural()
             fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                      fill="lightblue")
+                                          fill="lightblue")
         canva.after(speed, deplacement)
         itération += 1
         nmb.config(text=f"Itération: {itération}")
@@ -225,10 +224,11 @@ def reversse():
                     couleur[k][u] = 0
                     direction[i] = "e"
             fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                      fill="lightblue")
+                                          fill="lightblue")
         canva.after(speed, reversse)
         itération -= 1
         nmb.config(text=f"Itération: {itération}")
+
 
 def skipe():
     """Avance le programme d'une itération"""

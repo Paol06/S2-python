@@ -12,7 +12,7 @@ speed = 10
 itération = 0
 direction1 = "n"
 direction2 = "n"
-direction = ["n", "n", "n"]
+direction = ["n", "n"]
 pauses = True
 cases = []
 couleur = []
@@ -263,6 +263,7 @@ def reset():
     k, u = 45, 35
     v = [33, 45]
     w = [33, 45]
+    direction = ["n", "n"]
     pauses = True
     itération = 0
     speed = 10

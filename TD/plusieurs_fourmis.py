@@ -5,7 +5,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-k, u = 33, 33
+x, y = 33, 33
 v = [33, 45]
 w = [33, 45]
 speed = 10
@@ -41,24 +41,24 @@ for i in range(larg // taille_carre):
     couleur.append(colonnes_couleur)
 
 # Liste permettant de vérifier la couleur de la case.
-couleur[k][u] = 0
+couleur[x][y] = 0
 
 
 def fleche(dir):
     """Oriente la fourmi selon la direction souhaitée"""
-    global k, u
+    global x, y
     if dir == "w":
-        coor = (k * 10 + 2, u * 10 + 5, k * 10 + 8, u * 10 + 2,
-                k * 10 + 6, u * 10 + 5, k * 10 + 8, u * 10 + 8)
+        coor = (x * 10 + 2, y * 10 + 5, x * 10 + 8, y * 10 + 2,
+                x * 10 + 6, y * 10 + 5, x * 10 + 8, y * 10 + 8)
     elif dir == "e":
-        coor = (k * 10 + 8, u * 10 + 5, k * 10 + 2, u * 10 + 2,
-                k * 10 + 4, u * 10 + 5, k * 10 + 2, u * 10 + 8)
+        coor = (x * 10 + 8, y * 10 + 5, x * 10 + 2, y * 10 + 2,
+                x * 10 + 4, y * 10 + 5, x * 10 + 2, y * 10 + 8)
     elif dir == "n":
-        coor = (k * 10 + 5, u * 10 + 2, k * 10 + 2, u * 10 + 8,
-                k * 10 + 5, u * 10 + 6, k * 10 + 8, u * 10 + 8)
+        coor = (x * 10 + 5, y * 10 + 2, x * 10 + 2, y * 10 + 8,
+                x * 10 + 5, y * 10 + 6, x * 10 + 8, y * 10 + 8)
     elif dir == "s":
-        coor = (k * 10 + 5, u * 10 + 8, k * 10 + 2, u * 10 + 2,
-                k * 10 + 5, u * 10 + 4, k * 10 + 8, u * 10 + 2)
+        coor = (x * 10 + 5, y * 10 + 8, x * 10 + 2, y * 10 + 2,
+                x * 10 + 5, y * 10 + 4, x * 10 + 8, y * 10 + 2)
     return coor
 
 
@@ -104,16 +104,16 @@ def pause_reverse():
 
 def deplacement():
     """Programme le mouvement de la fourmi"""
-    global k, u, direction2, itération, fourmi
+    global x, y, direction2, itération, fourmi
     if pauses is False:
         for i in range(len(v)):
-            k = v[i]
-            u = w[i]
+            x = v[i]
+            y = w[i]
             direction2 = direction[i]
             canva.delete(fourmi)
-            if couleur[k][u] == 0:
-                canva.itemconfig(cases[k][u], fill=color2)
-                couleur[k][u] = 1
+            if couleur[x][y] == 0:
+                canva.itemconfig(cases[x][y], fill=color2)
+                couleur[x][y] = 1
                 if direction2 == "s":
                     direction[i] = "w"
                     v[i] -= 1
@@ -126,9 +126,9 @@ def deplacement():
                 elif direction2 == "e":
                     direction[i] = "s"
                     w[i] += 1
-            elif couleur[k][u] == 1:
-                canva.itemconfig(cases[k][u], fill=color1)
-                couleur[k][u] = 0
+            elif couleur[x][y] == 1:
+                canva.itemconfig(cases[x][y], fill=color1)
+                couleur[x][y] = 0
                 if direction2 == "s":
                     direction[i] = "e"
                     v[i] += 1
@@ -158,11 +158,11 @@ def deplacement():
 
 def reversse():
     """Retourne aux étapes précédentes"""
-    global k, u, direction2, itération, fourmi, v, w
+    global x, y, direction2, itération, fourmi, v, w
     if pauses is False and itération >= 1:
         for i in range(len(v)):
-            k = v[i]
-            u = w[i]
+            x = v[i]
+            y = w[i]
             direction2 = direction[i]
             canva.delete(fourmi)
             if direction2 == "n":
@@ -171,14 +171,14 @@ def reversse():
                     w[i] = 0
                 elif w[i] < 0:
                     w[i] = haut // taille_carre - 1
-                u = w[i]
-                if couleur[k][u] == 0:
-                    canva.itemconfig(cases[k][u], fill=color2)
-                    couleur[k][u] = 1
+                y = w[i]
+                if couleur[x][y] == 0:
+                    canva.itemconfig(cases[x][y], fill=color2)
+                    couleur[x][y] = 1
                     direction[i] = "e"
-                elif couleur[k][u] == 1:
-                    canva.itemconfig(cases[k][u], fill=color1)
-                    couleur[k][u] = 0
+                elif couleur[x][y] == 1:
+                    canva.itemconfig(cases[x][y], fill=color1)
+                    couleur[x][y] = 0
                     direction[i] = "w"
             elif direction2 == "w":
                 v[i] += 1
@@ -186,14 +186,14 @@ def reversse():
                     v[i] = 0
                 elif v[i] < 0:
                     v[i] = larg // taille_carre - 1
-                k = v[i]
-                if couleur[k][u] == 0:
-                    canva.itemconfig(cases[k][u], fill=color2)
-                    couleur[k][u] = 1
+                x = v[i]
+                if couleur[x][y] == 0:
+                    canva.itemconfig(cases[x][y], fill=color2)
+                    couleur[x][y] = 1
                     direction[i] = "n"
-                elif couleur[k][u] == 1:
-                    canva.itemconfig(cases[k][u], fill=color1)
-                    couleur[k][u] = 0
+                elif couleur[x][y] == 1:
+                    canva.itemconfig(cases[x][y], fill=color1)
+                    couleur[x][y] = 0
                     direction[i] = "s"
             elif direction2 == "e":
                 v[i] -= 1
@@ -201,14 +201,14 @@ def reversse():
                     v[i] = 0
                 elif v[i] < 0:
                     v[i] = larg // taille_carre - 1
-                k = v[i]
-                if couleur[k][u] == 0:
-                    canva.itemconfig(cases[k][u], fill=color2)
-                    couleur[k][u] = 1
+                x = v[i]
+                if couleur[x][y] == 0:
+                    canva.itemconfig(cases[x][y], fill=color2)
+                    couleur[x][y] = 1
                     direction[i] = "s"
-                elif couleur[k][u] == 1:
-                    canva.itemconfig(cases[k][u], fill=color1)
-                    couleur[k][u] = 0
+                elif couleur[x][y] == 1:
+                    canva.itemconfig(cases[x][y], fill=color1)
+                    couleur[x][y] = 0
                     direction[i] = "n"
             elif direction2 == "s":
                 w[i] -= 1
@@ -216,14 +216,14 @@ def reversse():
                     w[i] = 0
                 elif w[i] < 0:
                     w[i] = haut // taille_carre - 1
-                u = w[i]
-                if couleur[k][u] == 0:
-                    canva.itemconfig(cases[k][u], fill=color2)
-                    couleur[k][u] = 1
+                y = w[i]
+                if couleur[x][y] == 0:
+                    canva.itemconfig(cases[x][y], fill=color2)
+                    couleur[x][y] = 1
                     direction[i] = "w"
-                elif couleur[k][u] == 1:
-                    canva.itemconfig(cases[k][u], fill=color1)
-                    couleur[k][u] = 0
+                elif couleur[x][y] == 1:
+                    canva.itemconfig(cases[x][y], fill=color1)
+                    couleur[x][y] = 0
                     direction[i] = "e"
             fourmi = canva.create_polygon(fleche(direction2), width=0,
                                           fill="lightblue")
@@ -254,13 +254,13 @@ def undoo():
 
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
-    global pauses, k, u, direction2, itération, fourmi, speed, w, v
+    global pauses, x, y, direction2, itération, fourmi, speed, w, v, direction
     canva.delete(fourmi)
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
             couleur[i][j] = 0
-    k, u = 45, 35
+    x, y = 45, 35
     v = [33, 45]
     w = [33, 45]
     direction = ["n", "n"]
@@ -313,7 +313,7 @@ def sauvegarde():
 
 def charger():
     """permet de recharger la grille """
-    global etat_fourmis, color1, color2, k, u, itération, v, w
+    global etat_fourmis, color1, color2, x, y, itération, v, w
     global direction1, direction, speed, couleur, cases
     global fourmi, pauses
     pauses = True

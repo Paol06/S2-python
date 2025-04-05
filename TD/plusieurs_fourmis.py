@@ -19,6 +19,7 @@ direction = ["n", "n"]
 pauses = True
 cases = []
 couleur = []
+fourmis = []
 
 
 window = tk.Tk()
@@ -65,7 +66,11 @@ def fleche(dir):
     return coor
 
 
-fourmi = canva.create_polygon(fleche(direction2), width=0, fill="lightblue")
+for i in range(nb_fourmis):
+    fleches = canva.create_polygon(fleche(direction[i]), width=0, fill="lightblue")
+    fourmis.append(fleches)
+
+
 
 
 def passage_mural(k):
@@ -140,14 +145,14 @@ def pause_reverse():
 
 def deplacement():
     """Programme le mouvement de la fourmi"""
-    global x, y, direction2, itération, fourmi, indice, pos_x, pos_y, direction
+    global x, y, direction2, itération, fourmis, indice, pos_x, pos_y, direction
     if pauses is False:
         for i in range(nb_fourmis):
             indice = i
             x = pos_x[i]
             y = pos_y[i]
             direction2 = direction[i]
-            canva.delete(fourmi)
+            canva.delete(fourmis[i])
             if couleur[x][y] == 0:
                 canva.itemconfig(cases[x][y], fill=color2)
                 couleur[x][y] = 1
@@ -156,9 +161,9 @@ def deplacement():
                 canva.itemconfig(cases[x][y], fill=color1)
                 couleur[x][y] = 0
                 gauche(indice)
+            fourmis[i] = canva.create_polygon(fleche(direction[i]), width=0,
+                                              fill="lightblue")
             passage_mural(indice)
-        fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                      fill="lightblue")
         canva.after(speed, deplacement)
         itération += 1
         nmb.config(text=f"Itération: {itération}")
@@ -166,14 +171,14 @@ def deplacement():
 
 def reversse():
     """Retourne aux étapes précédentes"""
-    global x, y, direction2, itération, fourmi, pos_x, pos_y
+    global x, y, direction2, itération, fourmis, pos_x, pos_y
     if pauses is False and itération >= 1:
         for i in range(nb_fourmis):
             indice = i
             x = pos_x[i]
             y = pos_y[i]
             direction2 = direction[i]
-            canva.delete(fourmi)
+            canva.delete(fourmis[i])
             if direction2 == "n":
                 pos_y[i] += 1
                 passage_mural(indice)
@@ -222,8 +227,8 @@ def reversse():
                     canva.itemconfig(cases[x][y], fill=color1)
                     couleur[x][y] = 0
                     direction[i] = "e"
-            fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                          fill="lightblue")
+            fourmis[i] = canva.create_polygon(fleche(direction[i]), width=0,
+                                              fill="lightblue")
         canva.after(speed, reversse)
         itération -= 1
         nmb.config(text=f"Itération: {itération}")

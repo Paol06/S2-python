@@ -5,6 +5,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
+nb_fourmis = 2
 x, y = 33, 33
 pos_x = [33, 45]
 pos_y = [33, 45]
@@ -14,6 +15,7 @@ itération = 0
 direction1 = "n"
 direction2 = "n"
 direction = ["n", "n"]
+
 pauses = True
 cases = []
 couleur = []
@@ -80,6 +82,38 @@ def passage_mural(k):
         pos_x[k] = larg // taille_carre - 1
 
 
+def droite(k):
+    global direction2, pos_x, pos_y, direction
+    if direction2 == "s":
+        direction[k] = "w"
+        pos_x[k] -= 1
+    elif direction2 == "w":
+        direction[k] = "n"
+        pos_y[k] -= 1
+    elif direction2 == "n":
+        direction[k] = "e"
+        pos_x[k] += 1
+    elif direction2 == "e":
+        direction[k] = "s"
+        pos_y[k] += 1
+
+
+def gauche(k):
+    global direction2, pos_x, pos_y, direction
+    if direction2 == "s":
+        direction[k] = "e"
+        pos_x[k] += 1
+    elif direction2 == "w":
+        direction[k] = "s"
+        pos_y[k] += 1
+    elif direction2 == "n":
+        direction[k] = "w"
+        pos_x[k] -= 1
+    elif direction2 == "e":
+        direction[k] = "n"
+        pos_y[k] -= 1
+
+
 def pause():
     """Met en pause et restart lorsqu'on appuis une deuxiemme fois"""
     global pauses
@@ -106,9 +140,9 @@ def pause_reverse():
 
 def deplacement():
     """Programme le mouvement de la fourmi"""
-    global x, y, direction2, itération, fourmi, indice
+    global x, y, direction2, itération, fourmi, indice, pos_x, pos_y, direction
     if pauses is False:
-        for i in range(len(pos_x)):
+        for i in range(nb_fourmis):
             indice = i
             x = pos_x[i]
             y = pos_y[i]
@@ -117,33 +151,11 @@ def deplacement():
             if couleur[x][y] == 0:
                 canva.itemconfig(cases[x][y], fill=color2)
                 couleur[x][y] = 1
-                if direction2 == "s":
-                    direction[i] = "w"
-                    pos_x[i] -= 1
-                elif direction2 == "w":
-                    direction[i] = "n"
-                    pos_y[i] -= 1
-                elif direction2 == "n":
-                    direction[i] = "e"
-                    pos_x[i] += 1
-                elif direction2 == "e":
-                    direction[i] = "s"
-                    pos_y[i] += 1
+                droite(indice)
             elif couleur[x][y] == 1:
                 canva.itemconfig(cases[x][y], fill=color1)
                 couleur[x][y] = 0
-                if direction2 == "s":
-                    direction[i] = "e"
-                    pos_x[i] += 1
-                elif direction2 == "w":
-                    direction[i] = "s"
-                    pos_y[i] += 1
-                elif direction2 == "n":
-                    direction[i] = "w"
-                    pos_x[i] -= 1
-                elif direction2 == "e":
-                    direction[i] = "n"
-                    pos_y[i] -= 1
+                gauche(indice)
             passage_mural(indice)
         fourmi = canva.create_polygon(fleche(direction2), width=0,
                                       fill="lightblue")
@@ -156,7 +168,7 @@ def reversse():
     """Retourne aux étapes précédentes"""
     global x, y, direction2, itération, fourmi, pos_x, pos_y
     if pauses is False and itération >= 1:
-        for i in range(len(pos_x)):
+        for i in range(nb_fourmis):
             indice = i
             x = pos_x[i]
             y = pos_y[i]
@@ -285,7 +297,8 @@ def sauvegarde():
     global pauses, etat_fourmis
     pauses = True
     etat_fourmis = {"couleurs_bg": color1, "couleurs_cases": color2,
-                    "coord_x": pos_x, "coord_y": pos_y, "itérations": itération,
+                    "coord_x": pos_x, "coord_y": pos_y,
+                    "itérations": itération,
                     "direction1": direction1, "direction": direction,
                     "vitesse": speed, "couleur_cases2": couleur}
 

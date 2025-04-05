@@ -9,12 +9,15 @@ nb_fourmis = 2
 x, y = 33, 33
 pos_x = [33, 45]
 pos_y = [33, 45]
+posx_init = pos_x
+posy_init = pos_y
 indice = 0
 speed = 10
 itération = 0
 direction1 = "n"
 direction2 = "n"
 direction = ["n", "n"]
+direction_init = direction
 
 pauses = True
 cases = []
@@ -50,7 +53,7 @@ couleur[x][y] = 0
 
 def fleche(dir):
     """Oriente la fourmi selon la direction souhaitée"""
-    global x, y
+    global pos_x, pos_y
     if dir == "w":
         coor = (x * 10 + 2, y * 10 + 5, x * 10 + 8, y * 10 + 2,
                 x * 10 + 6, y * 10 + 5, x * 10 + 8, y * 10 + 8)
@@ -67,10 +70,9 @@ def fleche(dir):
 
 
 for i in range(nb_fourmis):
-    fleches = canva.create_polygon(fleche(direction[i]), width=0, fill="lightblue")
+    fleches = canva.create_polygon(fleche(direction[i]), width=0,
+                                   fill="lightblue")
     fourmis.append(fleches)
-
-
 
 
 def passage_mural(k):
@@ -256,16 +258,17 @@ def undoo():
 
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
-    global pauses, x, y, direction2, itération, fourmi, speed, pos_y, pos_x, direction
-    canva.delete(fourmi)
+    global pauses, x, y, direction2, itération, speed, pos_y, pos_x, direction, fourmis, fleches
+    for b in range(nb_fourmis):
+        canva.delete(fourmis[b])
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
             couleur[i][j] = 0
     x, y = 45, 35
-    pos_x = [33, 45]
-    pos_y = [33, 45]
-    direction = ["n", "n"]
+    pos_x = posx_init
+    pos_y = posy_init
+    direction = direction_init
     pauses = True
     itération = 0
     speed = 10
@@ -273,8 +276,11 @@ def reset():
     nmb.config(text=f"Itération: {itération}")
     vitesse.config(text=f"Tps/Itérations: {speed}")
 
-    fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                  fill="lightblue")
+    fourmis = []
+    for r in range(nb_fourmis):
+        fleches = canva.create_polygon(fleche(direction_init[r]), width=0,
+                                       fill="lightblue")
+        fourmis.append(fleches)
 
 
 def moins():
@@ -320,7 +326,7 @@ def charger():
     global direction1, direction, speed, couleur, cases
     global fourmi, pauses
     pauses = True
-    canva.delete(fourmi)
+    canva.delete(fourmis)
 
     fichier = open('donnee_grille.json', 'r')
     # données = fichier.read()

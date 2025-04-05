@@ -147,7 +147,8 @@ def pause_reverse():
 
 def deplacement():
     """Programme le mouvement de la fourmi"""
-    global x, y, direction2, itération, fourmis, indice, pos_x, pos_y, direction
+    global x, y, direction2, itération, fourmis, indice
+    global pos_x, pos_y, direction
     if pauses is False:
         for i in range(nb_fourmis):
             indice = i
@@ -258,7 +259,8 @@ def undoo():
 
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
-    global pauses, x, y, direction2, itération, speed, pos_y, pos_x, direction, fourmis, fleches
+    global pauses, x, y, direction2, itération, speed, pos_y, pos_x
+    global direction, fourmis, fleches
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
     for i in range(len(cases)):

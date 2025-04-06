@@ -87,7 +87,8 @@ def fleche_init(dir, x, y):
 
 
 for i in range(nb_fourmis):
-    fleches = canva.create_polygon(fleche_init(direction[i], posx_init[i], posy_init[i]), width=0,
+    fleches = canva.create_polygon(fleche_init(direction[i], posx_init[i],
+                                   posy_init[i]), width=0,
                                    fill="lightblue")
     fourmis.append(fleches)
 
@@ -277,28 +278,29 @@ def undoo():
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
     global pauses, x, y, direction2, itération, speed, pos_y, pos_x
-    global direction, fourmis, fleches, posy_init, posy_init, direction_init
+    global direction, fourmis, fleches
     print(direction_init)
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
+    for m in range(nb_fourmis):
+        fourmis[m] = canva.create_polygon(fleche_init(direction_init[m],
+                                          posx_init[m], posy_init[m]), width=0,
+                                          fill="lightblue")
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
             couleur[i][j] = 0
     x, y = 33, 33
-    pos_x = posx_init
-    pos_y = posy_init
-    direction = direction_init
-    print(posy_init)
+    pos_x = [33, 45]
+    pos_y = [33, 45]
+    direction = ["n", "n"]
+    print(pos_x, posx_init)
     pauses = True
     itération = 0
     speed = 10
     direction2 = direction1
     nmb.config(text=f"Itération: {itération}")
     vitesse.config(text=f"Tps/Itérations: {speed}")
-    for m in range(nb_fourmis):
-        fourmis[m] = canva.create_polygon(fleche_init(direction_init[m], posx_init[m], posy_init[m]), width=0,
-                                       fill="lightblue")
 
 
 def moins():

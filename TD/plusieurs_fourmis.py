@@ -1,5 +1,6 @@
 import tkinter as tk
 import json
+import random as rd
 
 color1 = "black"
 color2 = "#ff1b2d"
@@ -7,18 +8,27 @@ taille_carre = 10
 larg, haut = 900, 700
 nb_fourmis = 2
 x, y = 33, 33
-pos_x = [33, 45]
-pos_y = [33, 45]
-posx_init = [33, 45]
-posy_init = [33, 45]
+pos_x = []
+pos_y = []
+posx_init = []
+posy_init = []
+direction = []
+direction_init = []
+for g in range(nb_fourmis):
+    k = rd.randint(0, 89)
+    pos_x.append(k)
+    posx_init.append(k)
+    u = rd.randint(0, 69)
+    pos_y.append(u)
+    posy_init.append(u)
+    v = rd.choice(["n", "e", "s", "w"])
+    direction.append(v)
+    direction_init.append(v)
 indice = 0
 speed = 10
 itération = 0
 direction1 = "n"
 direction2 = "n"
-direction = ["n", "n"]
-direction_init = ["n", "n"]
-
 pauses = True
 cases = []
 couleur = []
@@ -279,22 +289,20 @@ def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
     global pauses, x, y, direction2, itération, speed, pos_y, pos_x
     global direction, fourmis, fleches
-    print(direction_init)
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
     for m in range(nb_fourmis):
         fourmis[m] = canva.create_polygon(fleche_init(direction_init[m],
                                           posx_init[m], posy_init[m]), width=0,
                                           fill="lightblue")
+        pos_x[m] = posx_init[m]
+        pos_y[m] = posy_init[m]
+        direction[m] = direction_init[m]
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
             couleur[i][j] = 0
     x, y = 33, 33
-    pos_x = [33, 45]
-    pos_y = [33, 45]
-    direction = ["n", "n"]
-    print(pos_x, posx_init)
     pauses = True
     itération = 0
     speed = 10
@@ -348,8 +356,6 @@ def charger():
     pauses = True
     for k in range(nb_fourmis):
         canva.delete(fourmis[k])
-
-
     fichier = open('donnee_grille.json', 'r')
     # données = fichier.read()
     etat_fourmis = json.load(fichier)
@@ -369,10 +375,6 @@ def charger():
         fourmis[z] = canva.create_polygon(fleche_init(direction[z],
                                           pos_x[z], pos_y[z]), width=0,
                                           fill="lightblue")
-
-
-
-
     vitesse.config(text=f"Tps/itération: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
     for i in range(len(cases)):

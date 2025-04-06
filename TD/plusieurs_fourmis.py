@@ -53,7 +53,24 @@ couleur[x][y] = 0
 
 def fleche(dir):
     """Oriente la fourmi selon la direction souhaitée"""
-    global pos_x, pos_y
+    global x, y
+    if dir == "w":
+        coor = (x * 10 + 2, y * 10 + 5, x * 10 + 8, y * 10 + 2,
+                x * 10 + 6, y * 10 + 5, x * 10 + 8, y * 10 + 8)
+    elif dir == "e":
+        coor = (x * 10 + 8, y * 10 + 5, x * 10 + 2, y * 10 + 2,
+                x * 10 + 4, y * 10 + 5, x * 10 + 2, y * 10 + 8)
+    elif dir == "n":
+        coor = (x * 10 + 5, y * 10 + 2, x * 10 + 2, y * 10 + 8,
+                x * 10 + 5, y * 10 + 6, x * 10 + 8, y * 10 + 8)
+    elif dir == "s":
+        coor = (x * 10 + 5, y * 10 + 8, x * 10 + 2, y * 10 + 2,
+                x * 10 + 5, y * 10 + 4, x * 10 + 8, y * 10 + 2)
+    return coor
+
+
+def fleche_init(dir, x, y):
+    """Oriente la fourmi selon la direction souhaitée"""
     if dir == "w":
         coor = (x * 10 + 2, y * 10 + 5, x * 10 + 8, y * 10 + 2,
                 x * 10 + 6, y * 10 + 5, x * 10 + 8, y * 10 + 8)
@@ -70,7 +87,7 @@ def fleche(dir):
 
 
 for i in range(nb_fourmis):
-    fleches = canva.create_polygon(fleche(direction[i]), width=0,
+    fleches = canva.create_polygon(fleche_init(direction[i], posx_init[i], posy_init[i]), width=0,
                                    fill="lightblue")
     fourmis.append(fleches)
 
@@ -260,29 +277,28 @@ def undoo():
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
     global pauses, x, y, direction2, itération, speed, pos_y, pos_x
-    global direction, fourmis, fleches
+    global direction, fourmis, fleches, posy_init, posy_init, direction_init
+    print(direction_init)
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
             couleur[i][j] = 0
-    x, y = 45, 35
+    x, y = 33, 33
     pos_x = posx_init
     pos_y = posy_init
     direction = direction_init
+    print(posy_init)
     pauses = True
     itération = 0
     speed = 10
     direction2 = direction1
     nmb.config(text=f"Itération: {itération}")
     vitesse.config(text=f"Tps/Itérations: {speed}")
-
-    fourmis = []
-    for r in range(nb_fourmis):
-        fleches = canva.create_polygon(fleche(direction_init[r]), width=0,
+    for m in range(nb_fourmis):
+        fourmis[m] = canva.create_polygon(fleche_init(direction_init[m], posx_init[m], posy_init[m]), width=0,
                                        fill="lightblue")
-        fourmis.append(fleches)
 
 
 def moins():
@@ -326,7 +342,7 @@ def charger():
     """permet de recharger la grille """
     global etat_fourmis, color1, color2, x, y, itération, pos_x, pos_y
     global direction1, direction, speed, couleur, cases
-    global fourmi, pauses
+    global fourmis, pauses
     pauses = True
     canva.delete(fourmis)
 
@@ -347,8 +363,6 @@ def charger():
 
     vitesse.config(text=f"Tps/itération: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
-    fourmi = canva.create_polygon(fleche(direction2), width=0,
-                                  fill="lightblue")
     for i in range(len(cases)):
 
         for m in range(len(cases[i])):

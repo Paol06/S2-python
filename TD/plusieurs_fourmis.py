@@ -346,7 +346,9 @@ def charger():
     global direction1, direction, speed, couleur, cases
     global fourmis, pauses
     pauses = True
-    canva.delete(fourmis)
+    for k in range(nb_fourmis):
+        canva.delete(fourmis[k])
+
 
     fichier = open('donnee_grille.json', 'r')
     # données = fichier.read()
@@ -362,6 +364,14 @@ def charger():
     direction = etat_fourmis["direction"]
     speed = etat_fourmis["vitesse"]
     couleur = etat_fourmis["couleur_cases2"]
+
+    for z in range(nb_fourmis):
+        fourmis[z] = canva.create_polygon(fleche_init(direction[z],
+                                          pos_x[z], pos_y[z]), width=0,
+                                          fill="lightblue")
+
+
+
 
     vitesse.config(text=f"Tps/itération: {speed}ms")
     nmb.config(text=f"Itération: {itération}")

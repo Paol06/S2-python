@@ -6,7 +6,8 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-nb_fourmis = 2
+nb_fourmis = 5
+nb_finit = 0
 x, y = 33, 33
 pos_x = []
 pos_y = []
@@ -24,6 +25,8 @@ for g in range(nb_fourmis):
     v = rd.choice(["n", "e", "s", "w"])
     direction.append(v)
     direction_init.append(v)
+    nb_finit += 1
+
 indice = 0
 speed = 10
 itération = 0
@@ -176,7 +179,7 @@ def pause_reverse():
 def deplacement():
     """Programme le mouvement de la fourmi"""
     global x, y, direction2, itération, fourmis, indice
-    global pos_x, pos_y, direction
+    global pos_x, pos_y, direction, nb_fourmis
     if pauses is False:
         for i in range(nb_fourmis):
             indice = i
@@ -202,7 +205,7 @@ def deplacement():
 
 def reversse():
     """Retourne aux étapes précédentes"""
-    global x, y, direction2, itération, fourmis, pos_x, pos_y
+    global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis
     if pauses is False and itération >= 1:
         for i in range(nb_fourmis):
             indice = i
@@ -288,16 +291,23 @@ def undoo():
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
     global pauses, x, y, direction2, itération, speed, pos_y, pos_x
-    global direction, fourmis, fleches
+    global direction, fourmis, fleches, nb_fourmis
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
+    nb_fourmis = nb_finit
+    fourmis = []
     for m in range(nb_fourmis):
-        fourmis[m] = canva.create_polygon(fleche_init(direction_init[m],
-                                          posx_init[m], posy_init[m]), width=0,
-                                          fill="lightblue")
-        pos_x[m] = posx_init[m]
-        pos_y[m] = posy_init[m]
-        direction[m] = direction_init[m]
+        fleches = canva.create_polygon(fleche_init(direction_init[m],
+                                       posx_init[m], posy_init[m]), width=0,
+                                       fill="lightblue")
+        fourmis.append(fleches)
+    pos_x = []
+    pos_y = []
+    direction = []
+    for d in range(nb_fourmis):
+        pos_x.append(posx_init[d])
+        pos_y.append(posy_init[d])
+        direction.append(direction_init[d])
     for i in range(len(cases)):
         for j in range(len(cases[0])):
             canva.itemconfig(cases[i][j], fill=color1)
@@ -339,7 +349,8 @@ def sauvegarde():
                     "coord_x": pos_x, "coord_y": pos_y,
                     "itérations": itération,
                     "direction1": direction1, "direction": direction,
-                    "vitesse": speed, "couleur_cases2": couleur}
+                    "vitesse": speed, "couleur_cases2": couleur,
+                    "nb_fourmi": nb_fourmis}
 
     fichier = open('donnee_grille.json', 'w')
 
@@ -352,7 +363,7 @@ def charger():
     """permet de recharger la grille """
     global etat_fourmis, color1, color2, x, y, itération, pos_x, pos_y
     global direction1, direction, speed, couleur, cases
-    global fourmis, pauses
+    global fourmis, pauses, nb_fourmis
     pauses = True
     for k in range(nb_fourmis):
         canva.delete(fourmis[k])
@@ -361,6 +372,7 @@ def charger():
     etat_fourmis = json.load(fichier)
     fichier.close()
 
+    nb_fourmis = etat_fourmis["nb_fourmi"]
     color1 = etat_fourmis["couleurs_bg"]
     color2 = etat_fourmis["couleurs_cases"]
     pos_x = etat_fourmis["coord_x"]
@@ -371,10 +383,12 @@ def charger():
     speed = etat_fourmis["vitesse"]
     couleur = etat_fourmis["couleur_cases2"]
 
+    fourmis = []
     for z in range(nb_fourmis):
-        fourmis[z] = canva.create_polygon(fleche_init(direction[z],
-                                          pos_x[z], pos_y[z]), width=0,
-                                          fill="lightblue")
+        fleches = canva.create_polygon(fleche_init(direction[z],
+                                       pos_x[z], pos_y[z]), width=0,
+                                       fill="lightblue")
+        fourmis.append(fleches)
     vitesse.config(text=f"Tps/itération: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
     for i in range(len(cases)):

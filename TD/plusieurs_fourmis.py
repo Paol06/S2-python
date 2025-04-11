@@ -6,7 +6,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-nb_fourmis = 5
+nb_fourmis = 2000
 nb_finit = 0
 x, y = 33, 33
 pos_x = []
@@ -208,61 +208,61 @@ def reversse():
     global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis
     if pauses is False and itération >= 1:
         for i in range(nb_fourmis):
-            indice = i
-            x = pos_x[i]
-            y = pos_y[i]
-            direction2 = direction[i]
-            canva.delete(fourmis[i])
+            indice = -i-1
+            x = pos_x[indice]
+            y = pos_y[indice]
+            direction2 = direction[indice]
+            canva.delete(fourmis[indice])
             if direction2 == "n":
-                pos_y[i] += 1
+                pos_y[indice] += 1
                 passage_mural(indice)
-                y = pos_y[i]
+                y = pos_y[indice]
                 if couleur[x][y] == 0:
                     canva.itemconfig(cases[x][y], fill=color2)
                     couleur[x][y] = 1
-                    direction[i] = "e"
+                    direction[indice] = "e"
                 elif couleur[x][y] == 1:
                     canva.itemconfig(cases[x][y], fill=color1)
                     couleur[x][y] = 0
-                    direction[i] = "w"
+                    direction[indice] = "w"
             elif direction2 == "w":
-                pos_x[i] += 1
+                pos_x[indice] += 1
                 passage_mural(indice)
-                x = pos_x[i]
+                x = pos_x[indice]
                 if couleur[x][y] == 0:
                     canva.itemconfig(cases[x][y], fill=color2)
                     couleur[x][y] = 1
-                    direction[i] = "n"
+                    direction[indice] = "n"
                 elif couleur[x][y] == 1:
                     canva.itemconfig(cases[x][y], fill=color1)
                     couleur[x][y] = 0
-                    direction[i] = "s"
+                    direction[indice] = "s"
             elif direction2 == "e":
-                pos_x[i] -= 1
+                pos_x[indice] -= 1
                 passage_mural(indice)
-                x = pos_x[i]
+                x = pos_x[indice]
                 if couleur[x][y] == 0:
                     canva.itemconfig(cases[x][y], fill=color2)
                     couleur[x][y] = 1
-                    direction[i] = "s"
+                    direction[indice] = "s"
                 elif couleur[x][y] == 1:
                     canva.itemconfig(cases[x][y], fill=color1)
                     couleur[x][y] = 0
-                    direction[i] = "n"
+                    direction[indice] = "n"
             elif direction2 == "s":
-                pos_y[i] -= 1
+                pos_y[indice] -= 1
                 passage_mural(indice)
-                y = pos_y[i]
+                y = pos_y[indice]
                 if couleur[x][y] == 0:
                     canva.itemconfig(cases[x][y], fill=color2)
                     couleur[x][y] = 1
-                    direction[i] = "w"
+                    direction[indice] = "w"
                 elif couleur[x][y] == 1:
                     canva.itemconfig(cases[x][y], fill=color1)
                     couleur[x][y] = 0
-                    direction[i] = "e"
-            fourmis[i] = canva.create_polygon(fleche(direction[i]), width=0,
-                                              fill="lightblue")
+                    direction[indice] = "e"
+            fourmis[indice] = canva.create_polygon(fleche(direction[indice]),
+                                                   width=0, fill="lightblue")
         canva.after(speed, reversse)
         itération -= 1
         nmb.config(text=f"Itération: {itération}")

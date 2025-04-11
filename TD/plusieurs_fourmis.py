@@ -83,7 +83,7 @@ def fleche(dir):
 
 
 def fleche_init(dir, x, y):
-    """Oriente la fourmi selon la direction souhaitée"""
+    """Oriente la fourmi selon la direction souhaitée initialement"""
     if dir == "w":
         coor = (x * 10 + 2, y * 10 + 5, x * 10 + 8, y * 10 + 2,
                 x * 10 + 6, y * 10 + 5, x * 10 + 8, y * 10 + 8)
@@ -121,6 +121,7 @@ def passage_mural(k):
 
 
 def droite(k):
+    """Mouvement couleur blanche"""
     global direction2, pos_x, pos_y, direction
     if direction2 == "s":
         direction[k] = "w"
@@ -137,6 +138,7 @@ def droite(k):
 
 
 def gauche(k):
+    """Mouvement couleur noire"""
     global direction2, pos_x, pos_y, direction
     if direction2 == "s":
         direction[k] = "e"

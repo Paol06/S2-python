@@ -6,7 +6,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-nb_fourmis = 900
+nb_fourmis = 300
 nb_finit = 0
 x, y = 33, 33
 pos_x = []
@@ -36,6 +36,17 @@ pauses = True
 cases = []
 couleur = []
 fourmis = []
+suite = "gggd"
+if len(suite) == 2:
+    color = ["white", "black"]
+elif len(suite) == 3:
+    color = ["black", "red", "dodgerblue"]
+elif len(suite) == 4:
+    color = ["black", "yellow", "red", "dodgerblue"]
+elif len(suite) == 5:
+    color = ["black", "yellow", "red", "purple", "dodgerblue"]
+elif len(suite) == 6:
+    color = ["black", "yellow", "orange", "red", "purple", "dodgerblue"]
 
 
 window = tk.Tk()
@@ -154,6 +165,22 @@ def gauche(k):
         pos_y[k] -= 1
 
 
+def couleur_suivante(a):
+    global suite
+    a = a + 1
+    if a == len(suite):
+        a = 0
+    return a
+
+
+def couleur_precedente(a):
+    global suite
+    if a == 0:
+        a = len(suite)
+    a = a - 1
+    return a
+
+
 def pause():
     """Met en pause et restart lorsqu'on appuis une deuxiemme fois"""
     global pauses
@@ -180,7 +207,7 @@ def pause_reverse():
 
 def deplacement():
     """Programme le mouvement de la fourmi"""
-    global x, y, direction2, itération, fourmis, indice
+    global x, y, direction2, itération, fourmis, indice, suite
     global pos_x, pos_y, direction, nb_fourmis
     if pauses is False:
         for i in range(nb_fourmis):
@@ -189,13 +216,13 @@ def deplacement():
             y = pos_y[i]
             direction2 = direction[i]
             canva.delete(fourmis[i])
-            if couleur[x][y] == 0:
-                canva.itemconfig(cases[x][y], fill=color2)
-                couleur[x][y] = 1
+            if suite[couleur[x][y]] == "d":
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                couleur[x][y] = couleur_suivante(couleur[x][y])
                 droite(indice)
-            elif couleur[x][y] == 1:
-                canva.itemconfig(cases[x][y], fill=color1)
-                couleur[x][y] = 0
+            elif suite[couleur[x][y]] == "g":
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                couleur[x][y] = couleur_suivante(couleur[x][y])
                 gauche(indice)
             fourmis[i] = canva.create_polygon(fleche(direction[i]), width=0,
                                               fill="lightblue")
@@ -207,7 +234,7 @@ def deplacement():
 
 def reversse():
     """Retourne aux étapes précédentes"""
-    global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis
+    global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis, suite
     if pauses is False and itération >= 1:
         for i in range(nb_fourmis):
             indice = -i-1
@@ -219,49 +246,41 @@ def reversse():
                 pos_y[indice] += 1
                 passage_mural(indice)
                 y = pos_y[indice]
-                if couleur[x][y] == 0:
-                    canva.itemconfig(cases[x][y], fill=color2)
-                    couleur[x][y] = 1
+                couleur[x][y] = couleur_precedente(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                if suite[couleur[x][y]] == "g":
                     direction[indice] = "e"
-                elif couleur[x][y] == 1:
-                    canva.itemconfig(cases[x][y], fill=color1)
-                    couleur[x][y] = 0
+                elif suite[couleur[x][y]] == "d":
                     direction[indice] = "w"
             elif direction2 == "w":
                 pos_x[indice] += 1
                 passage_mural(indice)
                 x = pos_x[indice]
-                if couleur[x][y] == 0:
-                    canva.itemconfig(cases[x][y], fill=color2)
-                    couleur[x][y] = 1
+                couleur[x][y] = couleur_precedente(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                if suite[couleur[x][y]] == "g":
                     direction[indice] = "n"
-                elif couleur[x][y] == 1:
-                    canva.itemconfig(cases[x][y], fill=color1)
-                    couleur[x][y] = 0
+                elif suite[couleur[x][y]] == "d":
                     direction[indice] = "s"
             elif direction2 == "e":
                 pos_x[indice] -= 1
                 passage_mural(indice)
                 x = pos_x[indice]
-                if couleur[x][y] == 0:
-                    canva.itemconfig(cases[x][y], fill=color2)
-                    couleur[x][y] = 1
+                couleur[x][y] = couleur_precedente(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                if suite[couleur[x][y]] == "g":
                     direction[indice] = "s"
-                elif couleur[x][y] == 1:
-                    canva.itemconfig(cases[x][y], fill=color1)
-                    couleur[x][y] = 0
+                elif suite[couleur[x][y]] == "d":
                     direction[indice] = "n"
             elif direction2 == "s":
                 pos_y[indice] -= 1
                 passage_mural(indice)
                 y = pos_y[indice]
-                if couleur[x][y] == 0:
-                    canva.itemconfig(cases[x][y], fill=color2)
-                    couleur[x][y] = 1
+                couleur[x][y] = couleur_precedente(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
+                if suite[couleur[x][y]] == "g":
                     direction[indice] = "w"
-                elif couleur[x][y] == 1:
-                    canva.itemconfig(cases[x][y], fill=color1)
-                    couleur[x][y] = 0
+                elif suite[couleur[x][y]] == "d":
                     direction[indice] = "e"
             fourmis[indice] = canva.create_polygon(fleche(direction[indice]),
                                                    width=0, fill="lightblue")
@@ -396,10 +415,8 @@ def charger():
     for i in range(len(cases)):
 
         for m in range(len(cases[i])):
-            if couleur[i][m] == 0:
-                canva.itemconfig(cases[i][m], fill=color1)
-            else:
-                canva.itemconfig(cases[i][m], fill=color2)
+            canva.itemconfig(cases[i][m], fill=color[couleur[i][m]])
+            
 
     print("chargement de la grille")
 

@@ -6,7 +6,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-nb_fourmis = 300
+nb_fourmis = 1
 nb_finit = 0
 x, y = 33, 33
 pos_x = []
@@ -37,8 +37,9 @@ cases = []
 couleur = []
 fourmis = []
 suite = "gggd"
+suite_init = suite
 if len(suite) == 2:
-    color = ["white", "black"]
+    color = ["black", "white"]
 elif len(suite) == 3:
     color = ["black", "red", "dodgerblue"]
 elif len(suite) == 4:
@@ -47,7 +48,7 @@ elif len(suite) == 5:
     color = ["black", "yellow", "red", "purple", "dodgerblue"]
 elif len(suite) == 6:
     color = ["black", "yellow", "orange", "red", "purple", "dodgerblue"]
-
+color_init = color
 
 window = tk.Tk()
 window.title("Fourmi de Langton")
@@ -217,12 +218,12 @@ def deplacement():
             direction2 = direction[i]
             canva.delete(fourmis[i])
             if suite[couleur[x][y]] == "d":
-                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
                 couleur[x][y] = couleur_suivante(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
                 droite(indice)
             elif suite[couleur[x][y]] == "g":
-                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
                 couleur[x][y] = couleur_suivante(couleur[x][y])
+                canva.itemconfig(cases[x][y], fill=color[couleur[x][y]])
                 gauche(indice)
             fourmis[i] = canva.create_polygon(fleche(direction[i]), width=0,
                                               fill="lightblue")
@@ -312,7 +313,9 @@ def undoo():
 def reset():
     """Fonction qui reconfigure la grille, dans la situation initiale"""
     global pauses, x, y, direction2, itération, speed, pos_y, pos_x
-    global direction, fourmis, fleches, nb_fourmis
+    global direction, fourmis, fleches, nb_fourmis, suite, color
+    suite = suite_init
+    color = color_init
     for b in range(nb_fourmis):
         canva.delete(fourmis[b])
     nb_fourmis = nb_finit
@@ -371,7 +374,7 @@ def sauvegarde():
                     "itérations": itération,
                     "direction1": direction1, "direction": direction,
                     "vitesse": speed, "couleur_cases2": couleur,
-                    "nb_fourmi": nb_fourmis}
+                    "nb_fourmi": nb_fourmis, "suitesave": suite, "colorsave": color}
 
     fichier = open('donnee_grille.json', 'w')
 
@@ -383,7 +386,7 @@ def sauvegarde():
 def charger():
     """permet de recharger la grille """
     global etat_fourmis, color1, color2, x, y, itération, pos_x, pos_y
-    global direction1, direction, speed, couleur, cases
+    global direction1, direction, speed, couleur, cases, suite, color
     global fourmis, pauses, nb_fourmis
     pauses = True
     for k in range(nb_fourmis):
@@ -396,6 +399,8 @@ def charger():
     nb_fourmis = etat_fourmis["nb_fourmi"]
     color1 = etat_fourmis["couleurs_bg"]
     color2 = etat_fourmis["couleurs_cases"]
+    color = etat_fourmis["colorsave"]
+    suite = etat_fourmis["suitesave"]
     pos_x = etat_fourmis["coord_x"]
     pos_y = etat_fourmis["coord_y"]
     itération = etat_fourmis["itérations"]

@@ -235,7 +235,8 @@ def deplacement():
 
 def reversse():
     """Retourne aux étapes précédentes"""
-    global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis, suite
+    global x, y, direction2, itération, fourmis, pos_x, pos_y, nb_fourmis
+    global suite
     if pauses is False and itération >= 1:
         for i in range(nb_fourmis):
             indice = -i-1
@@ -374,7 +375,8 @@ def sauvegarde():
                     "itérations": itération,
                     "direction1": direction1, "direction": direction,
                     "vitesse": speed, "couleur_cases2": couleur,
-                    "nb_fourmi": nb_fourmis, "suitesave": suite, "colorsave": color}
+                    "nb_fourmi": nb_fourmis, "suitesave": suite,
+                    "colorsave": color}
 
     fichier = open('donnee_grille.json', 'w')
 
@@ -421,8 +423,6 @@ def charger():
 
         for m in range(len(cases[i])):
             canva.itemconfig(cases[i][m], fill=color[couleur[i][m]])
-            
-
     print("chargement de la grille")
 
 # play = tk.Button(window, text="Start", bg="grey", font=("Impact", 14),

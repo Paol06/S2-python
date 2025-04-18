@@ -36,18 +36,18 @@ pauses = True
 cases = []
 couleur = []
 fourmis = []
-suite = "gggd"
+suite = "gd"
 suite_init = suite
 if len(suite) == 2:
-    color = ["black", "white"]
+    color = ["black", "#ff1b2d"]
 elif len(suite) == 3:
-    color = ["black", "red", "dodgerblue"]
+    color = ["black", "#ff1b2d", "#25fde9"]
 elif len(suite) == 4:
-    color = ["black", "yellow", "red", "dodgerblue"]
+    color = ["black", "yellow", "#ff1b2d", "#25fde9"]
 elif len(suite) == 5:
-    color = ["black", "yellow", "red", "purple", "dodgerblue"]
+    color = ["black", "yellow", "#ff1b2d", "#8A00C4", "#25fde9"]
 elif len(suite) == 6:
-    color = ["black", "yellow", "orange", "red", "purple", "dodgerblue"]
+    color = ["black", "yellow", "#00ff1a", "#ff1b2d", "#8A00C4", "#25fde9"]
 color_init = color
 
 window = tk.Tk()
@@ -343,7 +343,7 @@ def reset():
     speed = 10
     direction2 = direction1
     nmb.config(text=f"Itération: {itération}")
-    vitesse.config(text=f"Tps/Itérations: {speed}")
+    vitesse.config(text=f"Tps/itérations: {speed}ms")
 
 
 def moins():
@@ -354,7 +354,7 @@ def moins():
         speed -= 1
     else:
         speed == speed
-    vitesse.config(text=f"Tps/itération: {speed}ms")
+    vitesse.config(text=f"Tps/itérations: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
 
 
@@ -362,7 +362,7 @@ def plus():
     """Augmente la vitesse de la fourmi"""
     global speed, itération
     speed += 1
-    vitesse.config(text=f"Tps/itération: {speed}ms")
+    vitesse.config(text=f"Tps/itérations: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
 
 
@@ -417,7 +417,7 @@ def charger():
                                        pos_x[z], pos_y[z]), width=0,
                                        fill="lightblue")
         fourmis.append(fleches)
-    vitesse.config(text=f"Tps/itération: {speed}ms")
+    vitesse.config(text=f"Tps/itérations: {speed}ms")
     nmb.config(text=f"Itération: {itération}")
     for i in range(len(cases)):
 
@@ -456,7 +456,7 @@ undo = tk.Button(window, text="Undo", bg="#251F33",
                  activebackground=color2, width=7, command=undoo)
 
 # Vitesse de la clock
-vitesse = tk.Label(text=f"Tps/itération: {speed}ms",
+vitesse = tk.Label(text=f"Tps/itérations: {speed}ms",
                    bg="#251F33", fg=color2, width=15)
 nmb = tk.Label(text=f"Itération: {itération}",
                bg="#251F33", fg=color2, width=15)

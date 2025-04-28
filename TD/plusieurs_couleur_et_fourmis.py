@@ -6,7 +6,7 @@ color1 = "black"
 color2 = "#ff1b2d"
 taille_carre = 10
 larg, haut = 900, 700
-nb_fourmis = 1
+nb_fourmis = 30
 nb_finit = 0
 x, y = 33, 33
 pos_x = []
@@ -36,7 +36,7 @@ pauses = True
 cases = []
 couleur = []
 fourmis = []
-suite = "gd"
+suite = "dg"
 suite_init = suite
 if len(suite) == 2:
     color = ["black", "#ff1b2d"]
